@@ -18,16 +18,41 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "Shared"
+            export(project(":core-network"))
+            export(project(":feature:search:data"))
+            export(project(":feature:search:domen"))
+            export(project(":feature:search:ui"))
+
+            export(project(":feature:detail:data"))
+            export(project(":feature:detail:domen"))
+            export(project(":feature:detail:ui"))
+
             isStatic = true
         }
     }
     
     sourceSets {
+        androidMain.dependencies {
+
+        }
         commonMain.dependencies {
-            // put your Multiplatform dependencies here
+            api(projects.coreNetwork)
+
+            api(projects.feature.search.data)
+            api(projects.feature.search.domen)
+            api(projects.feature.search.ui)
+
+            api(projects.feature.detail.data)
+            api(projects.feature.detail.domen)
+            api(projects.feature.detail.ui)
+
+            implementation(libs.koin.core)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+        }
+        iosMain.dependencies {
+
         }
     }
 }
